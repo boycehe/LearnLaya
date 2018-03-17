@@ -13,6 +13,7 @@ start():void{
     Laya.Mouse.hide()
     Laya.stage.on(Laya.Event.MOUSE_DOWN,this,this.onMouseDown)
     Laya.stage.on(Laya.Event.MOUSE_MOVE,this,this.onMouseMove)
+    this.onMouseMove();
 }
 //结束使用锤子
 

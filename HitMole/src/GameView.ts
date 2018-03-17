@@ -46,10 +46,33 @@ class GameView extends ui.GameUI{
         
     }
 
+    gameStart():void{
+         this.timeBar.value = 1/10;
+         this.score = 0;
+         this.updateScoreUI();
+         this.hammer.visible = true;
+         this.hammer.start();
+         Laya.timer.loop(1000,this,this.onLoop);
+
+    }
+
     gameOver():void{
         Laya.timer.clear(this,this.onLoop);
         this.hammer.visible = false;
         this.hammer.end();
+        
+        if(!GameMain.gameOver){
+            GameMain.gameOver = new GameOver();
+        }
+
+        GameMain.gameOver.centerX = 0;
+        GameMain.gameOver.centerY = 40;
+        GameMain.gameOver.setScoreUI(this.score);
+
+
+        Laya.stage.addChild(GameMain.gameOver);
+
+    
         console.log("游戏结束！");
     }
 

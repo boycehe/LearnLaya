@@ -40,10 +40,25 @@ var GameView = /** @class */ (function (_super) {
         var index = Math.floor(Math.random() * this.moleNum);
         this.moles[index].show();
     };
+    GameView.prototype.gameStart = function () {
+        this.timeBar.value = 1 / 10;
+        this.score = 0;
+        this.updateScoreUI();
+        this.hammer.visible = true;
+        this.hammer.start();
+        Laya.timer.loop(1000, this, this.onLoop);
+    };
     GameView.prototype.gameOver = function () {
         Laya.timer.clear(this, this.onLoop);
         this.hammer.visible = false;
         this.hammer.end();
+        if (!GameMain.gameOver) {
+            GameMain.gameOver = new GameOver();
+        }
+        GameMain.gameOver.centerX = 0;
+        GameMain.gameOver.centerY = 40;
+        GameMain.gameOver.setScoreUI(this.score);
+        Laya.stage.addChild(GameMain.gameOver);
         console.log("游戏结束！");
     };
     GameView.prototype.setScore = function (type) {
