@@ -11,7 +11,13 @@ var __extends = (this && this.__extends) || (function () {
 var Role = /** @class */ (function (_super) {
     __extends(Role, _super);
     function Role() {
-        return _super.call(this) || this;
+        var _this = _super.call(this) || this;
+        _this.shootType = 0;
+        _this.shootInterval = 500;
+        _this.shootTime = Laya.Browser.now() + 2000;
+        _this.action = "";
+        _this.isBullet = false;
+        return _this;
         // this.init();
     }
     Role.prototype.init = function (_type, _camp, _hp, _speed, _hitRadius) {
@@ -33,14 +39,29 @@ var Role = /** @class */ (function (_super) {
             Laya.Animation.createFrames(["war/enemy3_down1.png", "war/enemy3_down2.png", "war/enemy3_down3.png", "war/enemy3_down4.png", "war/enemy3_down5.png", "war/enemy3_down6.png"], "enemy3_down");
             Laya.Animation.createFrames(["war/enemy3_fly1.png", "war/enemy3_fly2.png"], "enemy3_fly");
             Laya.Animation.createFrames(["war/enemy3_hit.png"], "enemy3_hit");
+            //缓存子弹
+            Laya.Animation.createFrames(["war/bullet1.png"], "bullet1_fly");
         }
         if (!this.body) {
             this.body = new Laya.Animation();
             this.addChild(this.body);
+            //添加动画播放完成事件
+            this.body.on(Laya.Event.COMPLETE, this, this.onPlayComplete);
         }
         this.playAction("fly");
     };
+    Role.prototype.onPlayComplete = function () {
+        //如果是击毁动画
+        if (this.action === "down") {
+            this.body.stop();
+            this.visible = false;
+        }
+        else if (this.action === "hit") {
+            this.playAction("fly");
+        }
+    };
     Role.prototype.playAction = function (action) {
+        this.action = action;
         this.body.play(0, true, this.type + "_" + action);
         var bound = this.body.getBounds();
         this.body.pos(-bound.width / 2, -bound.height / 2);

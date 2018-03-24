@@ -6,11 +6,18 @@ class Role extends Laya.Sprite{
 
     private static ccached:boolean = false;
     private type:string;
-    private camp:number;
-    private hp:number;
+    public camp:number;
+    public hp:number;
     public speed:number;
-    private hitRadius:number;
+    public hitRadius:number;
     private htiRadius:number;
+
+    public shootType:number = 0;
+    public shootInterval:number = 500;
+    public shootTime:number = Laya.Browser.now()+2000;
+    public action:string = "";
+    public isBullet:boolean = false
+
 
     constructor(){
         super();
@@ -41,6 +48,9 @@ class Role extends Laya.Sprite{
         Laya.Animation.createFrames(["war/enemy3_down1.png","war/enemy3_down2.png","war/enemy3_down3.png","war/enemy3_down4.png","war/enemy3_down5.png","war/enemy3_down6.png"],"enemy3_down");
         Laya.Animation.createFrames(["war/enemy3_fly1.png","war/enemy3_fly2.png"],"enemy3_fly");
         Laya.Animation.createFrames(["war/enemy3_hit.png"],"enemy3_hit");
+
+        //缓存子弹
+         Laya.Animation.createFrames(["war/bullet1.png"],"bullet1_fly");
         
        
     }
@@ -48,13 +58,30 @@ class Role extends Laya.Sprite{
     if(!this.body){
         this.body = new Laya.Animation();
         this.addChild(this.body);
+
+        //添加动画播放完成事件
+        this.body.on(Laya.Event.COMPLETE,this,this.onPlayComplete)
     }
 
        this.playAction("fly");
     }
 
+    onPlayComplete():void{
+
+        //如果是击毁动画
+        if(this.action === "down"){
+            this.body.stop();
+            this.visible = false;
+        }else if(this.action === "hit"){
+            this.playAction("fly");
+        }
+
+
+    }
+
     playAction(action:string):void{
 
+        this.action = action;
         this.body.play(0,true,this.type+"_"+action);
         var bound:Laya.Rectangle = this.body.getBounds();
         this.body.pos(-bound.width/2,-bound.height/2);
