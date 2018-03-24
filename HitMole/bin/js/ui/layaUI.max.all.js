@@ -27,6 +27,36 @@ var ui;
     ui.GameUI = GameUI;
 })(ui || (ui = {}));
 (function (ui) {
+    var GameOverUI = /** @class */ (function (_super) {
+        __extends(GameOverUI, _super);
+        function GameOverUI() {
+            return _super.call(this) || this;
+        }
+        GameOverUI.prototype.createChildren = function () {
+            _super.prototype.createChildren.call(this);
+            this.createView(ui.GameOverUI.uiView);
+        };
+        GameOverUI.uiView = { "type": "View", "props": { "width": 500, "height": 400 }, "child": [{ "type": "Image", "props": { "y": 0, "x": 0, "width": 500, "skin": "ui/overBg.png", "sizeGrid": "20,25,26,25", "height": 400 } }, { "type": "Image", "props": { "y": 27, "x": 25, "skin": "ui/total Score.png" } }, { "type": "Button", "props": { "y": 279, "x": 161, "var": "reStartBtn", "stateNum": 2, "skin": "ui/btn_restart.png" } }, { "type": "Box", "props": { "y": 188, "x": 160, "var": "scoreNums" }, "child": [{ "type": "Clip", "props": { "skin": "ui/clip_number.png", "name": "item0", "clipX": 10, "autoPlay": false } }, { "type": "Clip", "props": { "x": 18, "skin": "ui/clip_number.png", "name": "item1", "clipX": 10, "autoPlay": false } }, { "type": "Clip", "props": { "x": 36, "skin": "ui/clip_number.png", "name": "item2", "clipX": 10, "autoPlay": false } }, { "type": "Clip", "props": { "x": 54, "skin": "ui/clip_number.png", "name": "item3", "clipX": 10, "autoPlay": false } }, { "type": "Clip", "props": { "x": 72, "skin": "ui/clip_number.png", "name": "item4", "clipX": 10, "autoPlay": false } }, { "type": "Clip", "props": { "x": 90, "skin": "ui/clip_number.png", "name": "item5", "clipX": 10, "autoPlay": false } }, { "type": "Clip", "props": { "x": 108, "skin": "ui/clip_number.png", "name": "item6", "clipX": 10, "autoPlay": false } }, { "type": "Clip", "props": { "x": 126, "skin": "ui/clip_number.png", "name": "item7", "clipX": 10, "autoPlay": false } }, { "type": "Clip", "props": { "x": 144, "skin": "ui/clip_number.png", "name": "item8", "clipX": 10, "autoPlay": false } }, { "type": "Clip", "props": { "x": 162, "skin": "ui/clip_number.png", "name": "item9", "clipX": 10, "autoPlay": false } }] }] };
+        return GameOverUI;
+    }(View));
+    ui.GameOverUI = GameOverUI;
+})(ui || (ui = {}));
+(function (ui) {
+    var GameStartUI = /** @class */ (function (_super) {
+        __extends(GameStartUI, _super);
+        function GameStartUI() {
+            return _super.call(this) || this;
+        }
+        GameStartUI.prototype.createChildren = function () {
+            _super.prototype.createChildren.call(this);
+            this.createView(ui.GameStartUI.uiView);
+        };
+        GameStartUI.uiView = { "type": "View", "props": { "width": 800, "height": 600 }, "child": [{ "type": "Image", "props": { "y": 55, "x": 38, "skin": "ui/help.png" } }, { "type": "Button", "props": { "y": 420, "x": 311, "var": "startBtn", "stateNum": 2, "skin": "ui/btn_start.png" } }] };
+        return GameStartUI;
+    }(View));
+    ui.GameStartUI = GameStartUI;
+})(ui || (ui = {}));
+(function (ui) {
     var HammerUI = /** @class */ (function (_super) {
         __extends(HammerUI, _super);
         function HammerUI() {
