@@ -107,6 +107,11 @@ class Game {
                         //碰撞后掉血
                         this.lostHp(role1,1);
                         this.lostHp(role2,1);
+                        this.score++;
+                        if(this.score > this.levelUpScore){
+                            this.level++;
+                            this.levelUpScore+=this.level*5;
+                        }
                     }
                 }
 
@@ -116,15 +121,31 @@ class Game {
         //如果主角死亡，则停止游戏循环
         
         if(this.hero.hp<1){
+
             Laya.timer.clear(this,this.onLoop);
         }
 
-
-
         //每隔30帧创建新的飞机
-        if(Laya.timer.currFrame%60 === 0){
-            this.createEnemy(2);
+        // if(Laya.timer.currFrame%60 === 0){
+        //     this.createEnemy(2);
+        // }
+
+        var cutTime:number = this.level < 30?this.level*2:60;
+        var speedUp:number = Math.floor(this.level/6);
+        var hpUp:number = Math.floor(this.level/8);
+        var numUp:number = Math.floor(this.level/10);
+        if(Laya.timer.currFrame %(80 - cutTime*4) === 0){
+           this.createEnemy(0,2+numUp,3+speedUp,1);
         }
+
+        if(Laya.timer.currFrame %(150 - cutTime*4) === 0){
+            this.createEnemy(0,1+numUp,2+speedUp,2+hpUp*2);
+        }
+
+        if(Laya.timer.currFrame %(900 - cutTime*4) === 0){
+            this.createEnemy(2,1,1+speedUp,10+hpUp);
+        }
+
 
     }
 
@@ -173,16 +194,15 @@ class Game {
     }
    
 
-    createEnemy(num:number):void{
+    createEnemy(type:number,num:number,speed:number,hp:number):void{
 
         for(var i:number = 0;i<num;i++){
             //随机出现敌人
-            var r:number = Math.random();
-            //根据随机数，随机敌人
-            var type:number = r<0.7?0:r<0.95?1:2
+           
             //初始角色
             var enemy:Role = Laya.Pool.getItemByClass("role",Role)
-            enemy.init("enemy"+(type+1),1,this.hps[type],this.speeds[type],this.radius[type]);
+
+            enemy.init("enemy"+(type+1),1,hp,speed,this.radius[type]);
             //随机位置
             enemy.pos(Math.random()*400,Math.random()*200);
             //添加到舞台

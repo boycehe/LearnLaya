@@ -88,6 +88,11 @@ var Game = /** @class */ (function () {
                         //碰撞后掉血
                         this.lostHp(role1, 1);
                         this.lostHp(role2, 1);
+                        this.score++;
+                        if (this.score > this.levelUpScore) {
+                            this.level++;
+                            this.levelUpScore += this.level * 5;
+                        }
                     }
                 }
             }
@@ -97,8 +102,21 @@ var Game = /** @class */ (function () {
             Laya.timer.clear(this, this.onLoop);
         }
         //每隔30帧创建新的飞机
-        if (Laya.timer.currFrame % 60 === 0) {
-            this.createEnemy(2);
+        // if(Laya.timer.currFrame%60 === 0){
+        //     this.createEnemy(2);
+        // }
+        var cutTime = this.level < 30 ? this.level * 2 : 60;
+        var speedUp = Math.floor(this.level / 6);
+        var hpUp = Math.floor(this.level / 8);
+        var numUp = Math.floor(this.level / 10);
+        if (Laya.timer.currFrame % (80 - cutTime * 4) === 0) {
+            this.createEnemy(0, 2 + numUp, 3 + speedUp, 1);
+        }
+        if (Laya.timer.currFrame % (150 - cutTime * 4) === 0) {
+            this.createEnemy(0, 1 + numUp, 2 + speedUp, 2 + hpUp * 2);
+        }
+        if (Laya.timer.currFrame % (900 - cutTime * 4) === 0) {
+            this.createEnemy(2, 1, 1 + speedUp, 10 + hpUp);
         }
     };
     Game.prototype.lostHp = function (role, lostHp) {
@@ -140,15 +158,12 @@ var Game = /** @class */ (function () {
             }
         }
     };
-    Game.prototype.createEnemy = function (num) {
+    Game.prototype.createEnemy = function (type, num, speed, hp) {
         for (var i = 0; i < num; i++) {
             //随机出现敌人
-            var r = Math.random();
-            //根据随机数，随机敌人
-            var type = r < 0.7 ? 0 : r < 0.95 ? 1 : 2;
             //初始角色
             var enemy = Laya.Pool.getItemByClass("role", Role);
-            enemy.init("enemy" + (type + 1), 1, this.hps[type], this.speeds[type], this.radius[type]);
+            enemy.init("enemy" + (type + 1), 1, hp, speed, this.radius[type]);
             //随机位置
             enemy.pos(Math.random() * 400, Math.random() * 200);
             //添加到舞台
