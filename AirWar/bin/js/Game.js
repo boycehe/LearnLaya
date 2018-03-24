@@ -9,7 +9,14 @@ var Game = /** @class */ (function () {
         var bg = new BackGround();
         //把背景添加到舞台上
         Laya.stage.addChild(bg);
+        Laya.loader.load("res/atlas/war.atlas", Laya.Handler.create(this, this.onLoaded), null, Laya.Loader.ATLAS);
     }
+    Game.prototype.onLoaded = function () {
+        //创建一个主角
+        var hero = new Role();
+        hero.pos(200, 500);
+        Laya.stage.addChild(hero);
+    };
     return Game;
 }());
 new Game();
