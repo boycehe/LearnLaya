@@ -22,7 +22,10 @@ class Game {
     constructor(){
         //初始化引擎，设置游戏的宽高
         Laya.init(400,852,Laya.WebGL);
-     
+        Laya.stage.scaleMode = "showall";
+        Laya.stage.alignH = "center"
+        Laya.stage.screenMode = "vertical";
+
 
         Laya.loader.load("res/atlas/war.atlas",Laya.Handler.create(this,this.onLoaded),null,Laya.Loader.ATLAS);
 

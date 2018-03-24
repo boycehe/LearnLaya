@@ -15,6 +15,9 @@ var Game = /** @class */ (function () {
         this.radius = [15, 30, 70];
         //初始化引擎，设置游戏的宽高
         Laya.init(400, 852, Laya.WebGL);
+        Laya.stage.scaleMode = "showall";
+        Laya.stage.alignH = "center";
+        Laya.stage.screenMode = "vertical";
         Laya.loader.load("res/atlas/war.atlas", Laya.Handler.create(this, this.onLoaded), null, Laya.Loader.ATLAS);
     }
     Game.prototype.onLoaded = function () {
@@ -69,6 +72,7 @@ var Game = /** @class */ (function () {
                         //添加到舞台上
                         this.roleBox.addChild(bullet);
                     }
+                    Laya.SoundManager.playSound("res/sound/bullet.mp3");
                 }
             }
         }
@@ -107,6 +111,7 @@ var Game = /** @class */ (function () {
             Laya.timer.clear(this, this.onLoop);
             this.gameInfo.infoLabel.text = "GameOver,分数" + this.score + "\n 点击这里重新开始游戏";
             this.gameInfo.infoLabel.once(Laya.Event.CLICK, this, this.restart);
+            Laya.SoundManager.playSound("res/sound/game_over.mp3");
         }
         //每隔30帧创建新的飞机
         // if(Laya.timer.currFrame%60 === 0){
@@ -124,6 +129,7 @@ var Game = /** @class */ (function () {
         }
         if (Laya.timer.currFrame % (900 - cutTime * 4) === 0) {
             this.createEnemy(2, 1, 1 + speedUp, 10 + hpUp);
+            Laya.SoundManager.playSound("res/sound/enemy3_out.mp3");
         }
     };
     Game.prototype.restart = function () {
@@ -158,6 +164,7 @@ var Game = /** @class */ (function () {
             this.hero.shootInterval = 500 - 20 * (this.bulletLevel > 20 ? 20 : this.bulletLevel);
             //隐藏道具
             role.visible = false;
+            Laya.SoundManager.playSound("res/sound/enemy3_out.mp3");
         }
         else if (role.heroType === 3 && this.hero.hp < 10) {
             //每吃一个血瓶，血量增加1
