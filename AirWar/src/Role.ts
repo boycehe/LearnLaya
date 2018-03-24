@@ -5,7 +5,7 @@ class Role extends Laya.Sprite{
     private body:Laya.Animation;
 
     private static ccached:boolean = false;
-    private type:string;
+    public type:string;
     public camp:number;
     public hp:number;
     public speed:number;
@@ -17,6 +17,7 @@ class Role extends Laya.Sprite{
     public shootTime:number = Laya.Browser.now()+2000;
     public action:string = "";
     public isBullet:boolean = false
+    public heroType:number = 0;
 
 
     constructor(){
@@ -24,12 +25,13 @@ class Role extends Laya.Sprite{
        // this.init();
     }
 
-   public init(_type:string,_camp:number,_hp:number,_speed:number,_hitRadius:number):void{
+   public init(_type:string,_camp:number,_hp:number,_speed:number,_hitRadius:number,_heroType = 0):void{
         this.type = _type;
         this.camp = _camp;
         this.hp = _hp;
         this.speed = _speed;
         this.hitRadius = _hitRadius;
+        this.heroType = _heroType;
          
         if(!Role.ccached){
             //缓存飞行动画
@@ -51,6 +53,12 @@ class Role extends Laya.Sprite{
 
         //缓存子弹
          Laya.Animation.createFrames(["war/bullet1.png"],"bullet1_fly");
+
+         //缓存强化包
+         Laya.Animation.createFrames(["war/ufo1.png"],"ufo1_fly");
+
+          //缓存
+         Laya.Animation.createFrames(["war/ufo2.png"],"ufo2_fly");
         
        
     }

@@ -17,15 +17,18 @@ var Role = /** @class */ (function (_super) {
         _this.shootTime = Laya.Browser.now() + 2000;
         _this.action = "";
         _this.isBullet = false;
+        _this.heroType = 0;
         return _this;
         // this.init();
     }
-    Role.prototype.init = function (_type, _camp, _hp, _speed, _hitRadius) {
+    Role.prototype.init = function (_type, _camp, _hp, _speed, _hitRadius, _heroType) {
+        if (_heroType === void 0) { _heroType = 0; }
         this.type = _type;
         this.camp = _camp;
         this.hp = _hp;
         this.speed = _speed;
         this.hitRadius = _hitRadius;
+        this.heroType = _heroType;
         if (!Role.ccached) {
             //缓存飞行动画
             Role.ccached = true;
@@ -41,6 +44,10 @@ var Role = /** @class */ (function (_super) {
             Laya.Animation.createFrames(["war/enemy3_hit.png"], "enemy3_hit");
             //缓存子弹
             Laya.Animation.createFrames(["war/bullet1.png"], "bullet1_fly");
+            //缓存强化包
+            Laya.Animation.createFrames(["war/ufo1.png"], "ufo1_fly");
+            //缓存
+            Laya.Animation.createFrames(["war/ufo2.png"], "ufo2_fly");
         }
         if (!this.body) {
             this.body = new Laya.Animation();
